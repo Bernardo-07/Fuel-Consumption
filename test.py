@@ -2,6 +2,12 @@ import pandas as pd
 import numpy as np
 import tensorflow as tf
 
+def normalizer(data):
+    norm = tf.keras.layers.Normalization()
+    norm.adapt(data)
+    data_normalized = norm(data)
+    return data_normalized
+
 file_path = "auto-mpg.csv"
 
 data = pd.read_csv(file_path)
@@ -21,8 +27,6 @@ y_train = train_data.iloc[:, 0]
 X_test = test_data.iloc[:, 1:-1]
 y_test = test_data.iloc[:, 0]
 
-normalizer = tf.keras.layers.Normalization()
-normalizer.adapt(np.array(X_train))
-data_normalized = normalizer(np.array(X_train))
+X = normalizer(np.array(X_train))
 
-print(data_normalized)
+print(X)
